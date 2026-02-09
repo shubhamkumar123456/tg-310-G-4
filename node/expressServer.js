@@ -47,6 +47,11 @@ app.post('/register',(req, res)=>{
 
 
 
+// create a api in which user or admin can send product detail. check api using both ways frontend and postman. console the response in server only
+
+
+
+
 app.listen(port , ()=>{
     console.log(`server is running on http://localhost:${port}`)
 })
