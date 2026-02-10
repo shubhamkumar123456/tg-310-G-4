@@ -56,8 +56,7 @@ app.post('/products', (req,res)=>{
 // // https://github.com/shubhamkumar123456/tg-310-G-4.git
 
 
-// data send in params
-
+// data send in params using /:variableName
 app.get('/products/:xyz' , (req, res)=>{
     console.log(req.params)
     console.log(req.params.xyz)
@@ -65,6 +64,8 @@ app.get('/products/:xyz' , (req, res)=>{
 })
 
 
+// Data send through query using ? mark
+// example --> localhost:8080/trial?firstName=john&lastName=xyz
 app.get('/trial',(req,res)=>{
     console.log(req.query);
     console.log(req.query.firstName);
