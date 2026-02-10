@@ -46,10 +46,14 @@ app.post('/register',(req, res)=>{
 })
 
 
-
 // create a api in which user or admin can send product detail. check api using both ways frontend and postman. console the response in server only
 
+app.post('/products', (req,res)=>{
+    console.log(req.body)
+    res.json({msg:"data recieved"})
+})
 
+// // https://github.com/shubhamkumar123456/tg-310-G-4.git
 
 
 app.listen(port , ()=>{

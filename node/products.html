@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <input id="name" type="text" placeholder="product name">
+    <input id="price" type="text" placeholder="product price">
+
+    
+    <select name="" id="category">
+        <option value="">Select category</option>
+        <option value="electronics">electronics</option>
+        <option value="beauty">beauty</option>
+        <option value="toy">Toy</option>
+        <option value="fashion">fashion</option>
+        <option value="sports">Sports</option>
+    </select>
+
+    <input id="quantity" type="number" placeholder="enter quantity">
+    <button onclick="xyz()">Submit</button>
+
+    <script>
+
+        let nameTag = document.getElementById('name')
+        let priceTag = document.getElementById('price')
+        let quantityTag = document.getElementById('quantity')
+        let categoryTag = document.getElementById('category')
+
+        console.log(nameTag)
+
+       async function xyz(){
+            let obj ={
+                productName:nameTag.value,
+                price:priceTag.value,
+                quanity:quantityTag.value,
+                category:categoryTag.value
+            }
+            console.log(obj)
+
+            let res = await fetch('http://localhost:8080/products',{
+                method:"post",
+                headers:{
+                    'content-type':'application/json'
+                },
+                body:JSON.stringify(obj)
+            })
+
+            let data = await res.json();
+            console.log(data)
+        // console.log("hello")
+        }
+    </script>
+</body>
+</html>
