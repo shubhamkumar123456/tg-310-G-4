@@ -56,6 +56,22 @@ app.post('/products', (req,res)=>{
 // // https://github.com/shubhamkumar123456/tg-310-G-4.git
 
 
+// data send in params
+
+app.get('/products/:xyz' , (req, res)=>{
+    console.log(req.params)
+    console.log(req.params.xyz)
+    res.send("all ok")
+})
+
+
+app.get('/trial',(req,res)=>{
+    console.log(req.query);
+    console.log(req.query.firstName);
+    console.log(req.query.lastName);
+    res.send('data recieved')
+})
+
 app.listen(port , ()=>{
     console.log(`server is running on http://localhost:${port}`)
 })
