@@ -73,6 +73,12 @@ app.get('/trial',(req,res)=>{
     res.send('data recieved')
 })
 
+
+
+
+
+
+
 app.listen(port , ()=>{
     console.log(`server is running on http://localhost:${port}`)
 })
