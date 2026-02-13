@@ -20,11 +20,36 @@
     //     {name:"MI", price:45000, rating:5},
     //     {name:"samsung", price:45000, rating:5},
     // ])
+    // let arr = [
+    //     {name:"oppo", price:15000, rating:5,category:"smartphone"},
+    //     {name:"realme", price:25000, rating:5,category:"smartphone"},
+    //     {name:"xiomi", price:65000, rating:5,category:"smartphone"},
+    //     {name:"samsung", price:10000, rating:5,category:"Tv"},
+    //     {name:"samsung", price:95000, rating:5,category:"Tv"},
+    // ]
+
+// 5) get data from collection --> 
+    // a) get all data present in collection folder --> db.collectionName.find()
+    // b) get filtered Data --> db.collectionName.find({key : value})
+    // c)get single data --> db.collectionName.findOne({key:value})
+
+// 6) Update Data --> 
+    // a) update single Data --> db.collectionName.updateOne({key:value} , {$set:{key:value}})
+
+    // example-->db.products.updateOne({_id:ObjectId('698c9f2c3f7f0b8f213234a9')} , {$set:{name:"MI new"}}) 
+
+    // b) update multiple Data --> db.products.updateMany({_id:ObjectId('698c9f2c3f7f0b8f213234a9')} , {$set:{name:"MI new"}}) 
+
+//7) delete Data --> 
+    // a)delete single Data --> db.collectionName.deleteOne({key:value})
+    // example-->db.products.find({price:{$gt:35000}})
+
+    //b) delete multiple Data -->db.collectionName.deleteMany({key:value})
 
 
+//8) delete a collection (folder) --> db.collectionName.drop()
 
-    let arr = [
-        {name:"iphone", price:45000, rating:5},
-        {name:"MI", price:45000, rating:5},
-        {name:"samsung", price:45000, rating:5},
-    ]
+//9)delete a databse --> db.dropDatabase()
+
+//10) comparision operator --> $gt, $lt, $gte, $lte, $et
+// example-->db.products.find({price:{$gt:35000}})

@@ -64,7 +64,7 @@ app.get('/products/:xyz' , (req, res)=>{
 })
 
 
-// Data send through query using ? mark
+// Data send through query using (? mark)
 // example --> localhost:8080/trial?firstName=john&lastName=xyz
 app.get('/trial',(req,res)=>{
     console.log(req.query);
