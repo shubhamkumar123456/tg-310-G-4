@@ -9,12 +9,12 @@ const createUser = async(req,res)=>{
     let existingUser = await userCollection.findOne({email:email})  //{_id, name,email,password} or null
 
     if(existingUser){
-        return res.json({msg:"user already registered"})
+        return res.status(401).json({msg:"user already registered"})
     }
     else{
         let hashedPassword = await bcrypt.hash(password,salt) //12345-->%@#$%^&*(LKJHGFDFGHJK)
         let data = await userCollection.insertOne({name:name,email,password:hashedPassword})
-        res.json({msg:"user registered successfully"})
+        res.status(201).json({msg:"user registered successfully"})
     }
 
     
@@ -27,24 +27,48 @@ const loginUser = async(req,res)=>{
     if(getUser){
         let comparePassword = await bcrypt.compare(password,getUser.password)//true or false
         if(comparePassword){
-            res.json({msg:"user login successfully", data:getUser})
+            res.status(200).json({msg:"user login successfully", data:getUser})
         }
         else{
-            res.json({msg:"wrong password"})
+            res.status(401).json({msg:"wrong password"})
         }
     }
     else{
-        return res.json({msg:"user not found please signup"})
+        return res.status(401).json({msg:"user not found please signup"})
     }
 
 }
 
 const updateUser = async(req,res)=>{
-    res.send("update function is running")
+    // console.log(req.params)
+    // console.log(req.params.id)
+    let {id} = req.params
+    let {name, password} = req.body;
+    // updateOne({}  , {$set:{}})
+    if(password){
+        var hashedPassword = await bcrypt.hash(password, salt)
+    }
+
+
+    let data = await userCollection.updateOne({_id:id} , {$set:{name:name, password:hashedPassword}})
+
+    res.status(200).json({msg:"user updated successfully"})
+
+
+    
 }
 
 const deleteUser = async(req,res)=>{
-    res.send("delete function is running")
+    // res.send("delete function is running")
+    // console.log(req.params)
+   try {
+     let {id} = req.params
+    // let data = await userCollection.deleteOne({_id:id})
+    let data = await userCollection.findByIdAndDelete(id)
+    res.status(200).json({msg:"user deleted successfully"})
+   } catch (error) {
+    res.status(500).json({msg:"error in deleting user", error:error.message})
+   }
 }
 
 module.exports = {
