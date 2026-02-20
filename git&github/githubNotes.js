@@ -34,5 +34,7 @@
 // 
 //13) git clone  --> copy all your github repo link to your local machine
 //14) git pull  --> fetch and install updates coming from github repo
+//15) git stash -->
+
 
 
