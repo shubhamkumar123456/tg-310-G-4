@@ -58,3 +58,7 @@
 
 // Mongoose -->  it is library for mongodb with the help of mongoose your can create a structure(provide Schema). it also provides inbuilt functions(hooks) and validations
 
+
+
+// $2b$10$XO2Ol6Hu8549aIgdSAF51uZTEaZkiKVAIeYeCRMdb8.VbwYlkZRSC
+// $2b$10$XO2Ol6Hu8549aIgdSAF51uZTEaZkiKVAIeYeCRMdb8.VbwYlkZRSC SHA2
