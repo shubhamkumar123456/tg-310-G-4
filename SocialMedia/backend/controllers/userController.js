@@ -43,36 +43,19 @@ const loginUser = async(req,res)=>{
 }
 
 const updateUser = async(req,res)=>{
-    // console.log(req.params)
-    // console.log(req.params.id)
-    let {id} = req.params
     let {name, password} = req.body;
-    // updateOne({}  , {$set:{}})
     if(password){
         var hashedPassword = await bcrypt.hash(password, salt)
     }
-
-
-    let data = await userCollection.updateOne({_id:id} , {$set:{name:name, password:hashedPassword}})
-
-    res.status(200).json({msg:"user updated successfully"})
-
-
-    
+    let data = await userCollection.updateOne({_id:req.user} , {$set:{name:name, password:hashedPassword}})
+    res.status(200).json({msg:"user updated successfully"})  
 }
 
 const deleteUser = async(req,res)=>{
-    // res.send("delete function is running")
-    // console.log(req.params)
+  
    try {
-    let token = req.headers.authorization;
-    console.log(token)
-
-    let decoded = jwt.verify(token, jwt_secret);
-    // console.log(decoded)
-    //  let {id} = req.params
-    // let data = await userCollection.deleteOne({_id:decoded._id})
-    let data = await userCollection.findByIdAndDelete(decoded._id)
+   
+    let data = await userCollection.findByIdAndDelete(req.user)
     res.status(200).json({msg:"user deleted successfully"})
    } catch (error) {
     res.status(500).json({msg:"error in deleting user", error:error.message})

@@ -5,6 +5,7 @@ const connection = require('./config/db')  //function
 connection()
 
 const userRouter = require('./routes/userRoutes')
+const postRouter = require('./routes/postRoutes')
 
 app.use(express.json());
 
@@ -14,6 +15,7 @@ app.get('/',(req,res)=>{
 
 
 app.use('/users' ,userRouter);
+app.use('/posts' , postRouter);
 
 
 // example -->http://localhost:8090/users/register
