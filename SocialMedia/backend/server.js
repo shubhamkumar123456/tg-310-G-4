@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const port = 8090;
 const connection = require('./config/db')  //function
+const cors = require('cors')
 connection()
 
 const userRouter = require('./routes/userRoutes')
 const postRouter = require('./routes/postRoutes')
 
+app.use(cors())
 app.use(express.json());
 
 app.get('/',(req,res)=>{

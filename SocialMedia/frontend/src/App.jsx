@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import PNF from './pages/PNF'
 import Signup from './pages/Signup'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
  
@@ -18,6 +19,7 @@ function App() {
             <Route path='/register'  element={<Signup/>}/>
             <Route path='*' element={<PNF/>}/>
         </Routes>
+        <ToastContainer/>
       </BrowserRouter>
     </>
   )

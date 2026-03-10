@@ -1,9 +1,57 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { useNavigate } from 'react-router-dom';
+import {  toast } from 'react-toastify';
 
 const Signup = () => {
+
+    let nameRef = useRef()//undefined  , {}
+    let emailRef = useRef()
+    let passwordRef = useRef()
+
+    let navigate = useNavigate()
+
+
+    async function handleSubmit(e){
+        e.preventDefault()
+        console.log("hello")
+        let obj ={
+            name:nameRef.current.value,
+            email:emailRef.current.value,
+            password:passwordRef.current.value
+        }
+        // console.log(obj)
+        let res = await fetch('http://localhost:8090/users/register',{
+            method:"POST",
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify(obj)
+        })
+
+        let data = await res.json();
+        console.log(data)
+        if(res.status==200 || res.status==201){
+            toast.success(data.msg)
+            navigate('/login')
+        }
+        else{
+
+            toast.error(data.msg)
+        }
+    }
+
   return (
     <div>
-      this is signup page
+        <form action="" className='flex flex-col gap-3 bg-black p-8 text-white w-[50%] mx-auto'>
+            <label htmlFor="">Name</label>
+            <input ref={nameRef} className='border p-2' type="text" placeholder='enter your name' />
+            <label htmlFor="">Email</label>
+            <input ref={emailRef} className='border p-2' type="text" placeholder='enter your email' />
+            <label htmlFor="">Password</label>
+            <input ref={passwordRef} className='border p-2' type="text" placeholder='enter your password' />
+            <button onClick={handleSubmit} className='bg-green-700'>Submit</button>
+
+        </form>
     </div>
   )
 }
