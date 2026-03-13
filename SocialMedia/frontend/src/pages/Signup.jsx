@@ -35,9 +35,9 @@ const Signup = () => {
             navigate('/login')
         }
         else{
-
             toast.error(data.msg)
         }
+        
     }
 
   return (
