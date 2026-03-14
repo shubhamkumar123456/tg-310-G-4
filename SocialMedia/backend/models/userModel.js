@@ -15,8 +15,20 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true,
-    }
+    },
+   
+
 })
+
+userSchema.add({
+    DOB:{
+        type:Date
+    },
+    followers:[{type:String,ref:'users'}],
+    followings:[{type:String,ref:'users'}],
+})
+
+
 
 // const User = mongoose.model('collectionName' ,'StructureToFOllow' )
 const User = mongoose.model('users' ,userSchema )

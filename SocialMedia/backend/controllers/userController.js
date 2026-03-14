@@ -62,9 +62,36 @@ const deleteUser = async(req,res)=>{
    }
 }
 
+const followUser = async(req, res)=>{
+    let {friendId} = req.params;
+    let userId =  req.user;
+
+    let user = await userCollection.findById(userId) // {_id , name,email, password , followers:[], followings:[]}
+
+    let friend = await userCollection.findById(friendId);
+
+    console.log(user)
+
+    if(user.followings.includes(friendId)){
+        user.followings.pull(friendId);
+        friend.followers.pull(userId);
+        await user.save();
+        await friend.save()
+        return res.status(200).json({msg:"user unfollow successfull"});
+    }
+    else{
+        user.followings.push(friendId)
+        friend.followers.push(userId)
+         await user.save();
+        await friend.save()
+        return res.status(200).json({msg:"user follow successfull"});
+    }
+}
+
 module.exports = {
     createUser,
     loginUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    followUser
 }
