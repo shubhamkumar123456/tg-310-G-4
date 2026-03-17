@@ -24,6 +24,35 @@ const Home = () => {
     titleRef.current.value = ans
   }
 
+
+  const [image, setimage] = useState('');
+
+  function handleInputChanger(e){
+  
+    let file = e.target.files[0];  //object {}
+    console.log(file)
+    setimage(file)
+  }
+
+
+  async function handleSubmit(){
+      let formData = new FormData();
+      formData.append('title', titleRef.current.value )
+      formData.append('image',image)
+
+      let res = await fetch('http://localhost:8090/posts/create',{
+        method:'POST',
+        headers:{
+          'authorization':token
+        },
+        body:formData
+      })
+
+      let data = await res.json();
+      console.log(data)
+
+  }
+
   return (
     <div className=''>
         
@@ -31,7 +60,7 @@ const Home = () => {
 
       <div className='border rounded flex gap-4 flex-col p-8 w-[50%] mx-auto'>
         <textarea ref={titleRef} className='border rounded p-3' name="" id="" placeholder='whats on your mind..?'></textarea>
-        <input hidden id='a' type="file" />
+        <input hidden onChange={handleInputChanger} id='a' type="file" />
 
       <div className='flex items-center gap-9'>
 
@@ -42,10 +71,15 @@ const Home = () => {
       <BsEmojiSmile onClick={()=>setX(!x)} size={25} color='green'/>
       </div>
 
+     {image && <img className='w-[150px] h-[150px]' src={URL.createObjectURL(image)} alt="" />}
+
+   
+
+
       <EmojiPicker onEmojiClick={handleEmojiClicker} theme='dark' autoFocusSearch='false' open={x}/>
 
         
-        <button>Post</button>
+        <button onClick={handleSubmit}>Post</button>
       </div>
     </div>
   )

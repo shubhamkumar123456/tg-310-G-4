@@ -31,7 +31,7 @@ const Login = () => {
         console.log(data)
         if(res.status==200 || res.status==201){
             toast.success(data.msg)
-            localStorage.setItem('G4Auth',JSON.stringify(data.token))
+            localStorage.setItem('G4Auth',data.token)
             navigate('/')
         }
         else{
