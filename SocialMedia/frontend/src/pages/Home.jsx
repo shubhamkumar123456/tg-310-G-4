@@ -32,6 +32,10 @@ const Home = () => {
     let file = e.target.files[0];  //object {}
     console.log(file)
     setimage(file)
+    // let files = e.target.files // file list
+    // let fileArr  = [...files]
+    // console.log(files)
+    // console.log(fileArr)
   }
 
 
@@ -49,7 +53,9 @@ const Home = () => {
       })
 
       let data = await res.json();
-      console.log(data)
+      console.log(data) 
+      titleRef.current.value = '';
+        setimage('')
 
   }
 
@@ -60,7 +66,7 @@ const Home = () => {
 
       <div className='border rounded flex gap-4 flex-col p-8 w-[50%] mx-auto'>
         <textarea ref={titleRef} className='border rounded p-3' name="" id="" placeholder='whats on your mind..?'></textarea>
-        <input hidden onChange={handleInputChanger} id='a' type="file" />
+        <input hidden multiple onChange={handleInputChanger} id='a' type="file" />
 
       <div className='flex items-center gap-9'>
 
@@ -71,7 +77,7 @@ const Home = () => {
       <BsEmojiSmile onClick={()=>setX(!x)} size={25} color='green'/>
       </div>
 
-     {image && <img className='w-[150px] h-[150px]' src={URL.createObjectURL(image)} alt="" />}
+     {image && <img  className='w-[150px] h-[150px]' src={URL.createObjectURL(image)} alt="" />}
 
    
 
