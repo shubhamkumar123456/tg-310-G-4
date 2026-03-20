@@ -8,7 +8,7 @@ const createPost = async(req, res)=>{
         const {title } = req.body
     const userId = req.user;
 
-    let data = await postCollection.insertOne({title, file:req.file.filename, userId})
+    let data = await postCollection.insertOne({title, file:req.file?req.file.filename:'', userId})
 
     res.status(200).json({msg:"post created successfully"})
     } catch (error) {
@@ -17,7 +17,7 @@ const createPost = async(req, res)=>{
 
 }
 const getAllPost = async(req, res)=>{
-    let allposts =await postCollection.find().populate({path:'userId', select:'-password'});
+    let allposts =await postCollection.find().sort({createdAt:-1}).populate({path:'userId', select:'-password'});
     res.json({allposts})
 }
 const updatePost = async(req, res)=>{

@@ -1,98 +1,180 @@
-import React, { useRef, useState } from 'react'
-import { RiVideoUploadLine } from "react-icons/ri";
-import EmojiPicker from 'emoji-picker-react';
-import { BsEmojiSmile } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import CreatePost from "../components/CreatePost"
+import AspectRatio from '@mui/joy/AspectRatio';
+import Avatar from '@mui/joy/Avatar';
+import Box from '@mui/joy/Box';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Link from '@mui/joy/Link';
+import IconButton from '@mui/joy/IconButton';
+import Input from '@mui/joy/Input';
+import Typography from '@mui/joy/Typography';
+import MoreHoriz from '@mui/icons-material/MoreHoriz';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import ModeCommentOutlined from '@mui/icons-material/ModeCommentOutlined';
+import SendOutlined from '@mui/icons-material/SendOutlined';
+import Face from '@mui/icons-material/Face';
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+
 
 const Home = () => {
 
-  let titleRef = useRef()  //{current:undefined}
-  const [x, setX] = useState(false);
-  console.log(x)
+  const [allposts, setallposts] = useState([]);  // [] ,  [{}, {}, {}, {}, {}]
 
-  let token = localStorage.getItem('G4Auth');
-  console.log(token)
-
-
-  function handleEmojiClicker(e) {
-    // console.log(e)
-    console.log(e.emoji)
-    let inputvalue = titleRef.current.value;
-    console.log(inputvalue)
-
-    let ans = inputvalue + e.emoji;
-    console.log(ans)
-    titleRef.current.value = ans
-  }
-
-
-  const [image, setimage] = useState('');
-
-  function handleInputChanger(e) {
-
-    let file = e.target.files[0];  //object {}
-    console.log(file)
-    setimage(file)
-    // let files = e.target.files // file list
-    // let fileArr  = [...files]
-    // console.log(files)
-    // console.log(fileArr)
-  }
-
-
-  async function handleSubmit() {
-    let formData = new FormData();
-    formData.append('title', titleRef.current.value)
-    formData.append('image', image)
-
-    let res = await fetch('http://localhost:8090/posts/create', {
-      method: 'POST',
-      headers: {
-        'authorization': token
-      },
-      body: formData
-    })
-
-    let data = await res.json();
+ async function getAllPosts(){
+    let res = await fetch('http://localhost:8090/posts/all');
+    var data = await res.json();
     console.log(data)
-    titleRef.current.value = '';
-    setimage('')
-
+    console.log(data.allposts) //[{}, {}, {}, {}, {}]
+    setallposts(data.allposts)
   }
 
+  // 
+
+  useEffect(()=>{
+      getAllPosts()
+  }, [])
+ 
   return (
     <div className=''>
 
+
       <h1>This is home page</h1>
 
-      <div className='w-[50%] mx-auto  h-max bg-[url(https://t4.ftcdn.net/jpg/06/33/56/55/360_F_633565587_BmoYccbwbhjZcRKL9kWSwKU0WiSgeIhP.jpg)]
-       bg-cover bg-center overflow-hidden rounded-2xl'>
-        <div className='border border-white backdrop-blur-[3px]   flex gap-4 flex-col p-8 rounded-2xl'>
-          <div className='flex gap-2 w-full items-center'>
-            <textarea ref={titleRef} className=' rounded-lg border-2 border-white outline-none h-max w-full text-red-950 p-3' name="" id="" placeholder='whats on your mind..?'></textarea>
-            <button className='bg-green-900 text-white hover:bg-black px-4 py-1 rounded h-max' onClick={handleSubmit}>Post</button>
-          </div>
-          <input hidden multiple onChange={handleInputChanger} id='a' type="file" />
+      <CreatePost x={getAllPosts}  y="hello"/>
 
-          <div className='flex items-center gap-9'>
-
-            <label htmlFor="a">
-              <RiVideoUploadLine size={30} color='blue' />
-            </label>
-
-            <BsEmojiSmile onClick={() => setX(!x)} size={25} color='green' />
-          </div>
-
-          {image && <img className='w-[150px] h-[150px]' src={URL.createObjectURL(image)} alt="" />}
-
-
-
-
-          <EmojiPicker onEmojiClick={handleEmojiClicker} theme='dark' autoFocusSearch='false' open={x} />
-
-
-
-        </div>
-      </div>
+      {
+        allposts.map((ele , i)=>{
+          return <Card
+      variant="outlined"
+      sx={{ minWidth: 300,maxWidth:400,margin:'40px auto', '--Card-radius': (theme) => theme.vars.radius.xs }}
+    >
+      <CardContent orientation="horizontal" sx={{ alignItems: 'center', gap: 1 }}>
+        <Box
+          sx={{
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              m: '-2px',
+              borderRadius: '50%',
+              background:
+                'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)',
+            },
+          }}
+        >
+          
+          <Avatar
+            size="sm"
+            src={ele.userId.profilePic}
+            sx={{ p: 0.5, border: '2px solid', borderColor: 'background.body' }}
+          />
+        </Box>
+        
+        <Typography sx={{ fontWeight: 'lg' }}>{ele.userId.name}</Typography>
+        <IconButton variant="plain" color="neutral" size="sm" sx={{ ml: 'auto' }}>
+          <MoreHoriz />
+        </IconButton>
+      </CardContent>
+      <Typography sx={{ fontSize: 'sm' }}>
+          <Link
+            component="button"
+            color="neutral"
+            textColor="text.primary"
+            sx={{ fontWeight: 'lg' }}
+          >
+          
+          </Link>{' '}
+          {ele.title}
+        </Typography>
+      <CardOverflow>
+        
+          <img className="h-[300px] object-contain" src={`http://localhost:8090/uploads/${ele.file}`} alt="" loading="lazy" />
+        
+      </CardOverflow>
+      <CardContent orientation="horizontal" sx={{ alignItems: 'center', mx: -1 }}>
+        <Box sx={{ width: 0, display: 'flex', gap: 0.5 }}>
+          <IconButton variant="plain" color="neutral" size="sm">
+            <FavoriteBorder />
+          </IconButton>
+          <IconButton variant="plain" color="neutral" size="sm">
+            <ModeCommentOutlined />
+          </IconButton>
+          <IconButton variant="plain" color="neutral" size="sm">
+            <SendOutlined />
+          </IconButton>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mx: 'auto' }}>
+          {[...Array(5)].map((_, index) => (
+            <Box
+              key={index}
+              sx={[
+                {
+                  borderRadius: '50%',
+                  width: `max(${6 - index}px, 3px)`,
+                  height: `max(${6 - index}px, 3px)`,
+                },
+                index === 0
+                  ? { bgcolor: 'primary.solidBg' }
+                  : { bgcolor: 'background.level3' },
+              ]}
+            />
+          ))}
+        </Box>
+        <Box sx={{ width: 0, display: 'flex', flexDirection: 'row-reverse' }}>
+          <IconButton variant="plain" color="neutral" size="sm">
+            <BookmarkBorderRoundedIcon />
+          </IconButton>
+        </Box>
+      </CardContent>
+      <CardContent>
+        <Link
+          component="button"
+          underline="none"
+          textColor="text.primary"
+          sx={{ fontSize: 'sm', fontWeight: 'lg' }}
+        >
+          8.1M Likes
+        </Link>
+        
+        <Link
+          component="button"
+          underline="none"
+          startDecorator="…"
+          sx={{ fontSize: 'sm', color: 'text.tertiary' }}
+        >
+          more
+        </Link>
+        <Link
+          component="button"
+          underline="none"
+          sx={{ fontSize: '10px', color: 'text.tertiary', my: 0.5 }}
+        >
+          2 DAYS AGO
+        </Link>
+      </CardContent>
+      <CardContent orientation="horizontal" sx={{ gap: 1 }}>
+        <IconButton size="sm" variant="plain" color="neutral" sx={{ ml: -1 }}>
+          <Face />
+        </IconButton>
+        <Input
+          variant="plain"
+          size="sm"
+          placeholder="Add a comment…"
+          sx={{ flex: 1, px: 0, '--Input-focusedThickness': '0px' }}
+        />
+        <Link disabled underline="none" role="button">
+          Post
+        </Link>
+      </CardContent>
+    </Card>
+        })
+      }
 
     </div>
   )

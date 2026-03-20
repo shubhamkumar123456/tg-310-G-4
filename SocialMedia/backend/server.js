@@ -15,6 +15,7 @@ app.get('/',(req,res)=>{
     res.send('welcome page')
 })
 
+app.use('/uploads', express.static('uploads'))
 
 app.use('/users' ,userRouter);
 app.use('/posts' , postRouter);

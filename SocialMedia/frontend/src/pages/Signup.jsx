@@ -48,7 +48,7 @@ const Signup = () => {
             <label htmlFor="">Email</label>
             <input ref={emailRef} className='border p-2' type="text" placeholder='enter your email' />
             <label htmlFor="">Password</label>
-            <input ref={passwordRef} className='border p-2' type="text" placeholder='enter your password' />
+            <input ref={passwordRef} className='border p-2' type="password" placeholder='enter your password' />
             <button onClick={handleSubmit} className='bg-green-700'>Submit</button>
 
         </form>
