@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { RiVideoUploadLine } from "react-icons/ri";
 import EmojiPicker from 'emoji-picker-react';
 import { BsEmojiSmile } from "react-icons/bs";
 import { toast } from 'react-toastify';
+import UserContext from '../context/UserContext';
 
 
 const CreatePost = (props) => {
@@ -63,93 +64,111 @@ const CreatePost = (props) => {
 
   }
 
- return (
-  <div className="w-full px-4 mt-6">
+  let ctx = useContext(UserContext)  //{getUser, userData}
+    console.log(ctx)
+
+return (
+  <div className="w-full px-3 sm:px-0 mt-6">
     
     <div className="
-      max-w-2xl mx-auto 
-      bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 
-      backdrop-blur-xl 
-      border border-white/20 
-      shadow-xl shadow-black/30
-      rounded-2xl p-5 sm:p-6
+      max-w-xl mx-auto 
+      bg-white 
+      rounded-xl 
+      shadow-md 
+      border border-gray-200
+      p-4
     ">
 
-      {/* TEXT + BUTTON */}
-      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-     <textarea
-  ref={titleRef}
-  placeholder="What's on your mind?"
-  className="
-    w-full 
-    bg-white/20 
-    text-white 
-    placeholder-gray-300
-    border-2 border-black 
-    rounded-xl 
-    p-3 
-    outline-none 
-    resize-none
-    focus:ring-2 focus:ring-black
-    focus:border-black
-    transition
-  "
-/>
+      {/* TOP SECTION */}
+      <div className="flex items-center gap-3">
+        
+        {/* Avatar */}
+        <img
+          src={ctx.userData?.user?.profilePic}
+          alt=""
+          className="w-10 h-10 rounded-full"
+        />
 
+        {/* Input */}
+        <textarea
+          ref={titleRef}
+          placeholder="What's on your mind?"
+          className="
+            w-full 
+            bg-gray-100 
+            rounded-full 
+            px-4 py-2 
+            resize-none 
+            outline-none 
+            text-gray-700
+            placeholder-gray-500
+            hover:bg-gray-200
+            transition
+          "
+        />
+      </div>
+
+      {/* IMAGE PREVIEW */}
+      {image && (
+        <div className="mt-4">
+          <img
+            src={URL.createObjectURL(image)}
+            alt=""
+            className="w-full max-h-[300px] object-cover rounded-lg"
+          />
+        </div>
+      )}
+
+      {/* DIVIDER */}
+      <hr className="my-4" />
+
+      {/* ACTIONS */}
+      <div className="flex justify-between items-center">
+
+        {/* Left actions */}
+        <div className="flex gap-6">
+
+          {/* Upload */}
+          <label htmlFor="a" className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-2 rounded-lg">
+            <RiVideoUploadLine size={22} className="text-green-500" />
+            <span className="text-gray-600 text-sm font-medium">Photo/Video</span>
+          </label>
+
+          {/* Emoji */}
+          <div 
+            onClick={() => setX(!x)} 
+            className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-2 rounded-lg"
+          >
+            <BsEmojiSmile size={20} className="text-yellow-500" />
+            <span className="text-gray-600 text-sm font-medium">Feeling</span>
+          </div>
+
+        </div>
+
+        {/* Post Button */}
         <button
           onClick={handleSubmit}
           className="
-            bg-gradient-to-r from-pink-500 to-purple-600 
-            hover:scale-105 hover:shadow-lg
-            transition-all duration-200
-            text-white px-5 py-2 rounded-xl
+            bg-blue-500 
+            hover:bg-blue-600 
+            text-white 
+            px-4 py-2 
+            rounded-lg 
+            text-sm font-semibold
           "
         >
           Post
         </button>
-      </div>
-
-      {/* ACTIONS */}
-      <div className="flex items-center justify-between mt-4">
-
-        <div className="flex items-center gap-6">
-
-          {/* Upload */}
-          <label htmlFor="a" className="cursor-pointer hover:scale-110 transition">
-            <RiVideoUploadLine size={28} className="text-blue-400" />
-          </label>
-
-          {/* Emoji */}
-          <BsEmojiSmile 
-            onClick={() => setX(!x)} 
-            size={26} 
-            className="text-yellow-400 cursor-pointer hover:scale-110 transition"
-          />
-        </div>
 
       </div>
 
       {/* FILE INPUT */}
       <input hidden onChange={handleInputChanger} id="a" type="file" />
 
-      {/* IMAGE PREVIEW */}
-      {image && (
-        <div className="mt-4">
-          <img 
-            src={URL.createObjectURL(image)} 
-            alt=""
-            className="w-full max-h-[300px] object-cover rounded-xl border border-white/20"
-          />
-        </div>
-      )}
-
       {/* EMOJI PICKER */}
       {x && (
         <div className="mt-4">
-          <EmojiPicker 
-            onEmojiClick={handleEmojiClicker} 
-            theme="dark" 
-          />
+          <EmojiPicker onEmojiClick={handleEmojiClicker} theme="light" />
         </div>
       )}
 

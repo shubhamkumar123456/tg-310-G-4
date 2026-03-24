@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CreatePost from "../components/CreatePost"
 import AspectRatio from '@mui/joy/AspectRatio';
 import Avatar from '@mui/joy/Avatar';
@@ -17,6 +17,8 @@ import SendOutlined from '@mui/icons-material/SendOutlined';
 import Face from '@mui/icons-material/Face';
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import {formatDistanceToNow} from 'date-fns'
+import { FaHeart } from "react-icons/fa";
+import UserContext from "../context/UserContext";
 
 const Home = () => {
 
@@ -31,6 +33,9 @@ const Home = () => {
   }
 
   // 
+
+  let ctx = useContext(UserContext)  //{getUser, userData}
+  console.log(ctx)
 
   useEffect(()=>{
       getAllPosts()
@@ -93,15 +98,18 @@ const Home = () => {
           </Link>{' '}
           {ele.title}
         </Typography>
-      <CardOverflow>
+      {ele.file && <CardOverflow>
         
           <img className="h-[300px] object-contain" src={`http://localhost:8090/uploads/${ele.file}`} alt="" loading="lazy" />
         
-      </CardOverflow>
+      </CardOverflow>}
       <CardContent orientation="horizontal" sx={{ alignItems: 'center', mx: -1 }}>
         <Box sx={{ width: 0, display: 'flex', gap: 0.5 }}>
           <IconButton variant="plain" color="neutral" size="sm">
             <FavoriteBorder />
+          </IconButton>
+          <IconButton variant="plain" color="red" size="sm">
+            <FaHeart color="red" size={22} />
           </IconButton>
           <IconButton variant="plain" color="neutral" size="sm">
             <ModeCommentOutlined />

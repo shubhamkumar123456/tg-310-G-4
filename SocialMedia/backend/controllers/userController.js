@@ -89,11 +89,19 @@ const followUser = async(req, res)=>{
 }
 
 
+const getLoggedInUSer = async(req, res)=>{
+    let userId =  req.user;
+    let user = await userCollection.findById(userId).select('-password');
+    res.status(200).json({user});
+}
+
+
 
 module.exports = {
     createUser,
     loginUser,
     updateUser,
     deleteUser,
-    followUser
+    followUser,
+    getLoggedInUSer
 }
