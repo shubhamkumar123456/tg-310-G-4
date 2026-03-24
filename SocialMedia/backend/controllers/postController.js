@@ -27,9 +27,26 @@ const deletePost = async(req, res)=>{
     res.send("delete post is running")
 }
 
+const likePost = async(req, res)=>{
+    let {postId} = req.params;
+    let userId = req.user
+    let post = await postCollection.findById(postId)  // { _id , user, likes:[], title}
+    if(post.likes.includes(userId)){
+        post.likes.pull(userId);
+        await post.save();
+        return res.status(200).json({msg:"post disliked successfully"})
+    }
+    else{
+        post.likes.push(userId);
+        await post.save();
+        return res.status(200).json({msg:"post liked successfully"})
+    }
+}
+
 module.exports = {
     createPost,
     getAllPost,
     updatePost,
-    deletePost
+    deletePost,
+    likePost
 }

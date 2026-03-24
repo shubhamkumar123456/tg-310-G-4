@@ -12,7 +12,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <Navbar/>
+      <div className='mb-[70px]'>
+        <Navbar/>
+      </div>
         <Routes>
             <Route path='/'  element={<Home/>}/>
             <Route path='/login'  element={<Login/>}/>

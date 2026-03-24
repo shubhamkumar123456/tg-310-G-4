@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 
 const CreatePost = (props) => {
-    console.log(props)
+    // console.log(props)
      let titleRef = useRef()  //{current:undefined}
   const [x, setX] = useState(false);
 //   console.log(x)
@@ -32,7 +32,7 @@ const CreatePost = (props) => {
   function handleInputChanger(e) {
 
     let file = e.target.files[0];  //object {}
-    console.log(file)
+    // console.log(file)
     setimage(file)
     // let files = e.target.files // file list
     // let fileArr  = [...files]
@@ -63,41 +63,99 @@ const CreatePost = (props) => {
 
   }
 
-  return (
-    <div>
-       <div className='w-[50%] mx-auto  h-max bg-[url(https://t4.ftcdn.net/jpg/06/33/56/55/360_F_633565587_BmoYccbwbhjZcRKL9kWSwKU0WiSgeIhP.jpg)]
-       bg-cover bg-center  rounded-2xl'>
-        <div className='border relative border-white backdrop-blur-[3px]   flex gap-4 flex-col p-8 rounded-2xl'>
-          <div className='flex gap-2 w-full items-center'>
-            <textarea ref={titleRef} className=' rounded-lg border-2 border-white outline-none h-max w-full text-red-950 p-3' name="" id="" placeholder='whats on your mind..?'></textarea>
-            <button className='bg-green-900 text-white hover:bg-black px-4 py-1 rounded h-max' onClick={handleSubmit}>Post</button>
-          </div>
-          <input  hidden multiple onChange={handleInputChanger} id='a' type="file" />
+ return (
+  <div className="w-full px-4 mt-6">
+    
+    <div className="
+      max-w-2xl mx-auto 
+      bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 
+      backdrop-blur-xl 
+      border border-white/20 
+      shadow-xl shadow-black/30
+      rounded-2xl p-5 sm:p-6
+    ">
 
-          <div className='flex items-center gap-9'>
+      {/* TEXT + BUTTON */}
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+     <textarea
+  ref={titleRef}
+  placeholder="What's on your mind?"
+  className="
+    w-full 
+    bg-white/20 
+    text-white 
+    placeholder-gray-300
+    border-2 border-black 
+    rounded-xl 
+    p-3 
+    outline-none 
+    resize-none
+    focus:ring-2 focus:ring-black
+    focus:border-black
+    transition
+  "
+/>
 
-            <label htmlFor="a">
-              <RiVideoUploadLine size={30} color='blue' />
-            </label>
-
-            <BsEmojiSmile onClick={() => setX(!x)} size={25} color='green' />
-          </div>
-
-          {image && <img className='w-[150px] h-[150px]' src={URL.createObjectURL(image)} alt="" />}
-
-
-
-
-          <div className='absolute top-full'>
-             <EmojiPicker onEmojiClick={handleEmojiClicker} theme='dark' autoFocusSearch='false' open={x} />
-          </div>
-
-
-
-        </div>
+        <button
+          onClick={handleSubmit}
+          className="
+            bg-gradient-to-r from-pink-500 to-purple-600 
+            hover:scale-105 hover:shadow-lg
+            transition-all duration-200
+            text-white px-5 py-2 rounded-xl
+          "
+        >
+          Post
+        </button>
       </div>
+
+      {/* ACTIONS */}
+      <div className="flex items-center justify-between mt-4">
+
+        <div className="flex items-center gap-6">
+
+          {/* Upload */}
+          <label htmlFor="a" className="cursor-pointer hover:scale-110 transition">
+            <RiVideoUploadLine size={28} className="text-blue-400" />
+          </label>
+
+          {/* Emoji */}
+          <BsEmojiSmile 
+            onClick={() => setX(!x)} 
+            size={26} 
+            className="text-yellow-400 cursor-pointer hover:scale-110 transition"
+          />
+        </div>
+
+      </div>
+
+      {/* FILE INPUT */}
+      <input hidden onChange={handleInputChanger} id="a" type="file" />
+
+      {/* IMAGE PREVIEW */}
+      {image && (
+        <div className="mt-4">
+          <img 
+            src={URL.createObjectURL(image)} 
+            alt=""
+            className="w-full max-h-[300px] object-cover rounded-xl border border-white/20"
+          />
+        </div>
+      )}
+
+      {/* EMOJI PICKER */}
+      {x && (
+        <div className="mt-4">
+          <EmojiPicker 
+            onEmojiClick={handleEmojiClicker} 
+            theme="dark" 
+          />
+        </div>
+      )}
+
     </div>
-  )
+  </div>
+)
 }
 
 export default CreatePost
