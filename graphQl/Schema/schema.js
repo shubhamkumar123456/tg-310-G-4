@@ -1,7 +1,7 @@
 const graphql  = require('graphql')
 const {GraphQLObjectType, GraphQLList, GraphQLSchema, GraphQLString} = graphql
 const userCollection = require('../models/userModel')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
 
 const Mutation = new GraphQLObjectType({
