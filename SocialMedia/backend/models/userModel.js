@@ -34,6 +34,10 @@ userSchema.add({
     coverPic:{
         type:String,
         default:'https://timelinecovers.pro/facebook-cover/download/royal-black-luxury-facebook-cover.jpg'
+    },
+    resetPasswordToken:{
+        type:String,
+        default:""
     }
 })
 

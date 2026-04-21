@@ -8,6 +8,7 @@ import Signup from './pages/Signup'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import UserContext from './context/UserContext'
+import ForgetPassword from './pages/ForgetPassword'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
             <Route path='/'  element={<Home/>}/>
             <Route path='/login'  element={<Login/>}/>
             <Route path='/register'  element={<Signup/>}/>
+            <Route path='/foegetpassword'  element={<ForgetPassword/>}/>
             <Route path='*' element={<PNF/>}/>
         </Routes>
         <ToastContainer/>
